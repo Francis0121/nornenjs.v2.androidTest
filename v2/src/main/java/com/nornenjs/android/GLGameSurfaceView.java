@@ -9,7 +9,8 @@ import android.view.MotionEvent;
 /**
  * Created by pi on 15. 3. 13.
  */
-public class GLGameSurfaceView extends GLSurfaceView {
+public class GLGameSurfaceView extends GLSurfaceView{
+    
     public static GameThread mGameThread;
 
     public static boolean isRun;
@@ -24,32 +25,7 @@ public class GLGameSurfaceView extends GLSurfaceView {
         mGameThread.start();
         Log.d("render", "surface view");
     }
-    
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.v(null, "onKeyDown");
-        return super.onKeyDown(keyCode, event);
-    }
-    
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        Log.v(null,"onTouchEvent");
-        
-        switch(event.getAction()) {
-        
-            case MotionEvent.ACTION_DOWN :
-                Log.v(null,"onTouchEvent : ACTION_DOWN");
-                break;
-            case MotionEvent.ACTION_MOVE :
-                Log.v(null,"onTouchEvent : ACTION_MOVE");
-                break;
-            case MotionEvent.ACTION_UP :
-                Log.v(null,"onTouchEvent : ACTION_UP");
-                break;
-        }
-        return super.onTouchEvent(event);
-    }
-    
+
     //Thread
     public class GameThread extends Thread {
         public GameThread(Context context) {
@@ -92,4 +68,6 @@ public class GLGameSurfaceView extends GLSurfaceView {
             }
         }
     }
+
 }
+

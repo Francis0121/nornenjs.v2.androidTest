@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.WindowManager;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -24,6 +25,10 @@ public class OpenglActivity extends ActionBarActivity {
     
     public static GLGameSurfaceView mGLView;
     public static GLGameRenderer mGLRenderer;
+
+    public boolean isOn = false;
+    public float beforeX = 0.0f, beforeY = 0.0f;
+    public float rotationX = 0.0f, rotationY = 0.0f;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,5 +122,48 @@ public class OpenglActivity extends ActionBarActivity {
     public void onResume() {
         mGLView.mGameThread.resumeThread();
         super.onResume();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        Log.v("opengl", "onTouchEvent");
+
+        switch(event.getAction()) {
+
+            case MotionEvent.ACTION_DOWN :
+                Log.d("opengl", "onTouchEvent : ACTION_DOWN");
+                isOn = true;
+                beforeX = event.getX();
+                beforeY = event.getY();
+
+                break;
+            case MotionEvent.ACTION_MOVE :
+                Log.d("opengl", "onTouchEvent : ACTION_MOVE");
+                if(isOn) {
+                    //calc
+                    rotationX += (event.getX() - beforeX) / 10.0;
+                    rotationY += (event.getY() - beforeY) / 10.0;
+
+                    beforeX = event.getX();
+                    beforeY = event.getY();
+
+                    //mListener.onMyEvent(rotationX, rotationY);
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("rotationX", rotationX);
+                        jsonObject.put("rotationY", rotationY);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e("error", "Make json object");
+                    }
+                    socket.emit("event", jsonObject);
+                }
+                break;
+            case MotionEvent.ACTION_UP :
+                Log.d("opengl", "onTouchEvent : ACTION_UP");
+                isOn = false;
+                break;
+        }
+        return super.onTouchEvent(event);
     }
 }
