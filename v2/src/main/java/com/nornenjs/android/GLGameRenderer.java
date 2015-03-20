@@ -62,8 +62,6 @@ public class GLGameRenderer implements GLSurfaceView.Renderer {
     
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig arg1) {
-        
-        
         gl.glClearColor(0, 1, 0, 0.5f);										// RGBA
         gl.glEnable(GL10.GL_TEXTURE_2D);									// 텍스쳐 활성
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);	// ??

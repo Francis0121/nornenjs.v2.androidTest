@@ -34,6 +34,19 @@ public class GLGameSurfaceView extends GLSurfaceView {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Log.v(null,"onTouchEvent");
+        
+        switch(event.getAction()) {
+        
+            case MotionEvent.ACTION_DOWN :
+                Log.v(null,"onTouchEvent : ACTION_DOWN");
+                break;
+            case MotionEvent.ACTION_MOVE :
+                Log.v(null,"onTouchEvent : ACTION_MOVE");
+                break;
+            case MotionEvent.ACTION_UP :
+                Log.v(null,"onTouchEvent : ACTION_UP");
+                break;
+        }
         return super.onTouchEvent(event);
     }
     
@@ -46,12 +59,14 @@ public class GLGameSurfaceView extends GLSurfaceView {
         
         public void run() {
             while(isRun) {
+                
                 try {
                     OpenglActivity.mGLView.requestRender(); // onDrawFrame
                     mGameThread.sleep(10);
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
+                
                 synchronized (this) {
                     if (isWait) {
                         try { wait(); } catch (Exception e) {

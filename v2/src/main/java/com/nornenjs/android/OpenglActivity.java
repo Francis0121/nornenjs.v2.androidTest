@@ -9,6 +9,8 @@ import android.view.WindowManager;
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 
@@ -33,41 +35,50 @@ public class OpenglActivity extends ActionBarActivity {
             e.printStackTrace();
         }
 
-        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+        socket.emit("connectMessage");
+        
+        socket.on("connectMessage", new Emitter.Listener() {
 
             @Override
             public void call(Object... args) {
-                Log.d("socket", "connect");
-                socket.emit("stream"); // 112.108.40.166
+                Log.d("socket", "on connectMessage");
+                JSONObject message = (JSONObject) args[0];
+                
+                try {
+                    if( ! ((Boolean) message.get("success")) ){
+                        return;
+                    }
+                    socket.emit("init");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                
             }
 
         });
 
-        socket.on("jpeg", new Emitter.Listener() { //112.108.40.166
+        socket.on("stream", new Emitter.Listener() { //112.108.40.166
             @Override
             public void call(Object... args) {
                 byteArray = (byte[]) args[0];
+                
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if(mGLView != null) {
-                            //Log.i("byte", "Length " + byteArray.length);
                             mGLRenderer.setByteArray(byteArray);
-                            mGLView.invalidate();
                         }
                     }
                 });
-
             }
         });
-
+        
         socket.connect();
         
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mGLRenderer = new GLGameRenderer(this);
         mGLView = new GLGameSurfaceView(this);
         setContentView(mGLView);
-        
     }
 
 

@@ -8,11 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.Button;
 import android.widget.ImageView;
 import com.github.nkzawa.emitter.Emitter;
@@ -39,6 +35,24 @@ public class MainActivity extends ActionBarActivity {
         if(mTimer != null){
             mTask.cancel();
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        
+        switch(event.getAction()) {
+
+            case MotionEvent.ACTION_DOWN :
+                Log.v(null,"onTouchEvent : ACTION_DOWN on Activity");
+                break;
+            case MotionEvent.ACTION_MOVE :
+                Log.v(null,"onTouchEvent : ACTION_MOVE  on Activity");
+                break;
+            case MotionEvent.ACTION_UP :
+                Log.v(null,"onTouchEvent : ACTION_UP on Activity");
+                break;
+        }
+        return super.onTouchEvent(event);
     }
 
     @Override
@@ -72,53 +86,27 @@ public class MainActivity extends ActionBarActivity {
 //        } catch (URISyntaxException e) {
 //            e.printStackTrace();
 //        }
-
+//
 //        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 //
 //            @Override
 //            public void call(Object... args) {
 //                Log.d("socket", "connect");
-////                socket.emit("my other event", "android");// 112.108.40.165
 //                socket.emit("stream"); // 112.108.40.166
 //            }
 //
 //        });
-        
-//        socket.on("news", new Emitter.Listener() { // 112.108.40.165
 //
+//
+//       socket.on("jpeg", new Emitter.Listener() { //112.108.40.166
 //            @Override
-//            public void call(Object... args) {
-//                JSONObject obj = (JSONObject) args[0];
-//                Log.d("socket", obj.toString());
-//            }
-//
-//        });
-//
-//        socket.on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
-//
-//            @Override
-//            public void call(Object... args) {
-//
-//                Log.d("socket", "disconnect");
-//            }
-//
-//        });
-        
-
-//        socket.on("image", new Emitter.Listener() {// 112.108.40.165
-//            @Override
-//
 //            public void call(Object... args) {
 //                byteArray = (byte[]) args[0];
-//                Log.d("socket", "Length : " + byteArray.length);
-//
 //
 //                runOnUiThread(new Runnable() {
 //                    @Override
 //                    public void run() {
-//                        Log.d("socket", "ByteArray " + byteArray);
 //                        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-//                        Log.d("socket", "Heigth " + bitmap.getHeight() + " Width " + bitmap.getWidth());
 //                        ImageView image = (ImageView) findViewById(R.id.imageView);
 //                        image.setImageBitmap(bitmap);
 //                        count++;
@@ -126,31 +114,9 @@ public class MainActivity extends ActionBarActivity {
 //                });
 //
 //            }
-//
 //        });
-        
-       /* socket.on("jpeg", new Emitter.Listener() { //112.108.40.166
-            @Override
-            public void call(Object... args) {
-                byteArray = (byte[]) args[0];
-                //Log.d("socket", "Cuda Length : " + byteArray.length);
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //Log.d("socket", "Cuda ByteArray " + byteArray);
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                        //Log.d("socket", "CUda Heigth " + bitmap.getHeight() + " Width " + bitmap.getWidth());
-                        ImageView image = (ImageView) findViewById(R.id.imageView);
-                        image.setImageBitmap(bitmap);
-                        count++;
-                    }
-                });
-
-            }
-        });
-
-        socket.connect();*/
+//
+//        socket.connect();
 
     }
 
