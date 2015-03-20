@@ -1,6 +1,8 @@
 package com.nornenjs.android;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
@@ -15,16 +17,15 @@ import java.util.TimerTask;
 public class GLGameRenderer implements GLSurfaceView.Renderer {
 
     private Quad mQuad;
-    private byte[] byteArray;
+    private Bitmap bitmap;
     private Context context;
     
     private int count = 0;
     private TimerTask mTask;
     private Timer mTimer;
-    
-    
-    public void setByteArray(byte[] byteArray) {
-        this.byteArray = byteArray;
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     public GLGameRenderer(Context context) {
@@ -46,8 +47,8 @@ public class GLGameRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onDrawFrame(GL10 gl) {
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT|GL10.GL_DEPTH_BUFFER_BIT);
-        if(this.byteArray != null) {
-            mQuad.InitTexture(gl, this.byteArray);
+        if(this.bitmap != null) {
+            mQuad.SetTexture(gl, this.bitmap);
         }else{
             Log.d("render", "null");
         }
@@ -62,6 +63,10 @@ public class GLGameRenderer implements GLSurfaceView.Renderer {
     
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig arg1) {
+
+        Bitmap getBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.panda);
+        mQuad.InitTexture(gl, getBitmap);
+        
         gl.glClearColor(0, 1, 0, 0.5f);										// RGBA
         gl.glEnable(GL10.GL_TEXTURE_2D);									// 텍스쳐 활성
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_FASTEST);	// ??

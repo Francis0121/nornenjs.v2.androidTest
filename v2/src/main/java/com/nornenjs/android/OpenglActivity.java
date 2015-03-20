@@ -1,5 +1,7 @@
 package com.nornenjs.android;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -66,7 +68,8 @@ public class OpenglActivity extends ActionBarActivity {
                     @Override
                     public void run() {
                         if(mGLView != null) {
-                            mGLRenderer.setByteArray(byteArray);
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                            mGLRenderer.setBitmap(bitmap);
                         }
                     }
                 });
