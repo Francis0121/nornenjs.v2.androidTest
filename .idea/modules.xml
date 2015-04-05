@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/test.iml" filepath="$PROJECT_DIR$/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nornenjs.v2.androidTest.iml" filepath="$PROJECT_DIR$/nornenjs.v2.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/v2/v2.iml" filepath="$PROJECT_DIR$/v2/v2.iml" />
     </modules>
   </component>
 </project>
+

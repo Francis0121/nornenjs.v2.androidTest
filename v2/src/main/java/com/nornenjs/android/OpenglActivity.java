@@ -6,13 +6,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.net.URISyntaxException;
+import com.github.nkzawa.socketio.client.Socket;
 
 
 public class OpenglActivity extends ActionBarActivity {
@@ -28,52 +23,6 @@ public class OpenglActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opengl);
 
-        // ~ socket connection
-        try {
-            socket = IO.socket("http://112.108.40.166:5000");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-
-        socket.emit("connectMessage");
-        
-        socket.on("connectMessage", new Emitter.Listener() {
-
-            @Override
-            public void call(Object... args) {
-                Log.d("socket", "on connectMessage");
-                JSONObject message = (JSONObject) args[0];
-                
-                try {
-                    if( ! ((Boolean) message.get("success")) ){
-                        return;
-                    }
-                    socket.emit("init");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                
-            }
-
-        });
-
-        socket.on("stream", new Emitter.Listener() { //112.108.40.166
-            @Override
-            public void call(Object... args) {
-                byteArray = (byte[]) args[0];
-                
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(mGLView != null) {
-                            mGLRenderer.setByteArray(byteArray);
-                        }
-                    }
-                });
-            }
-        });
-        
-        socket.connect();
         
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         mGLRenderer = new GLGameRenderer(this);

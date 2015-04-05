@@ -14,10 +14,10 @@ public class Quad extends Shape {
     private int[] textureName;
 
     private float[] vertices = {
-            -0.5f	, 0.5f	, 0.0f, // 0, Left Top
-            0.5f	, 0.5f	, 0.0f,	// 1, Right Top
-            0.5f	, -0.5f	, 0.0f,	// 2, Right Bottom
-            -0.5f	, -0.5f	, 0.0f	// 3, Left Bottom
+            -0.8f	, 0.8f	, 0.0f, // 0, Left Top
+            0.8f	, 0.8f	, 0.0f,	// 1, Right Top
+            0.8f	, -0.8f	, 0.0f,	// 2, Right Bottom
+            -0.8f	, -0.8f	, 0.0f	// 3, Left Bottom
     };
 
     private short[] index = {
