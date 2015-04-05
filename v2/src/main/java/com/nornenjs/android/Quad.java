@@ -4,6 +4,7 @@ import java.nio.*;
 import javax.microedition.khronos.opengles.*;
 import android.graphics.*;
 import android.opengl.*;
+import android.util.Log;
 
 public class Quad extends Shape {
 
@@ -58,9 +59,12 @@ public class Quad extends Shape {
     }
 
     /* Initialize Texture */
-    public void InitTexture(GL10 gl, byte[] byteArray) {
+    public void InitTexture(GL10 gl, Bitmap bitmap) {
 
-        Bitmap imgPanda = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        if(bitmap == null ){
+            Log.e("DEBUG", "setGLTexture : Bitmap is null!!!!!!!!!!");
+            return;
+        }
 
         gl.glGenTextures(1, textureName, 0);					// 텍스쳐 포인터 설정
         gl.glBindTexture(GL10.GL_TEXTURE_2D, textureName[0]);	// 텍스쳐 사용 연결
@@ -68,8 +72,24 @@ public class Quad extends Shape {
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
 
-        GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, imgPanda, 0);
+        GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
+//
+//        bitmap.recycle();
+//        bitmap = null;
+    }
 
-        imgPanda.recycle();
+    public void SetTexture(GL10 gl, Bitmap bitmap) {
+        if(bitmap == null ){
+            Log.e("DEBUG", "setGLTexture : Bitmap is null!!!!!!!!!!");
+            return;
+        }
+        
+        gl.glBindTexture(GL10.GL_TEXTURE_2D, textureName[0]);
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_NEAREST);
+        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_NEAREST);
+        GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
+
+//        bitmap.recycle();
+//        bitmap = null;
     }
 }
